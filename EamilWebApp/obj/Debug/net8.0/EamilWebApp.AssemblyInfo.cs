@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EamilWebApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7a940e1e2a7924cb02c73631d4d2a10c2ee49743")]
 [assembly: System.Reflection.AssemblyProductAttribute("EamilWebApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EamilWebApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

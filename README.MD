@@ -80,18 +80,32 @@ public enum MailTemplateEnum
  AppSetting.json 的 senderEmailAccountList 節點的配置, EMAIL發送賬戶列表。默認第1個發送失敗，則用第2個，如此類推。
 
 ```
- "senderEmailAccountList": [
-   {
-     "senderOfCompany": "126.com", //發郵件at的后面部分
-     "enableSSL": true,
-     "enableTSL": true,
-     "enablePasswordAuthentication": true,
-     "senderServerHost": "smtp.126.com",
-     "senderServerHostPort": 465,
-     "senderUserName": "dddd2@126.com",
-     "fromMailAddress": "dddd2@126.com",
-     "senderUserPassword": "SXXXXXXXXXXXXD"
-   },
+//AppSetting.json
+ 
+ {
+  "senderEmailAccountList": [
+  	 {
+        "senderOfCompany": "126.com", //發郵件at的后面部分 故障排查 465：$ telnet smtp.126.com 587  
+        "enableSSL": true,
+        "enableTSL": true,
+        "enablePasswordAuthentication": true,
+        "senderServerHost": "smtp.126.com",
+        "senderServerHostPort": 465,
+        "senderUserName": "xguard@126.com",
+        "fromMailAddress": "xguard@126.com",
+        "senderUserPassword": "SAHMIMINZLHDRXSD"
+    },
+    {
+      "senderOfCompany": "xguard.hk",
+      "enableSSL": true,
+      "enableTSL": true,
+      "enablePasswordAuthentication": true,
+      "senderServerHost": "smtp.office365.com",
+      "senderServerHostPort": 587,
+      "senderUserName": "service@xguard.hk",
+      "fromMailAddress": "service@xguard.hk",
+      "senderUserPassword": "SAHMIMINZLHDRXSD"
+    },
    {
      "senderOfCompany": "gmail.com", //發郵件at的后面部分 
      "enableSSL": true,
@@ -102,8 +116,10 @@ public enum MailTemplateEnum
      "senderUserName": "hhguard1@126.com",
      "fromMailAddress": "hhguard1@126.com",
      "senderUserPassword": "SXXXXXXXXXXXXD"
-   }
- ]
+   } 
+  ]
+}
+
 ```
 
  
@@ -218,36 +234,6 @@ props.put("mail.smtp.writetimeout", "60000");     // 写入超时60秒
   - 587 (TLS加密)512
 
  Gmail SMTP 設置指引 https://support.google.com/mail/answer/7104828?authuser=1&hl=zh-Hant&authuser=1&visit_id=637427367852942990-2357665447&rd=1
-
-![image-20250822154811279](./README_IMGs/README/image-20250822154811279.png)
-
-## 舊的郵箱賬號
-
-```
-"senderEmailAccountList": [
-  {
-    "senderOfCompany": "126.com", //發郵件at的后面部分 故障排查 465：$ telnet smtp.126.com 587  
-    "enableSSL": true,
-    "enableTSL": true,
-    "enablePasswordAuthentication": true,
-    "senderServerHost": "smtp.126.com",
-    "senderServerHostPort": 465,
-    "senderUserName": "xguard@126.com",
-    "fromMailAddress": "xguard@126.com",
-    "senderUserPassword": "SAHMIMINZLHDRXSD"
-  },
-  {
-    "senderOfCompany": "gmail.com", //發郵件at的后面部分 故障排查：$ telnet smtp.126.com 587 
-    "enableSSL": true,
-    "enableTSL": true,
-    "enablePasswordAuthentication": true,
-    "senderServerHost": "smtp.gmail.com",
-    "senderServerHostPort": 587,
-    "senderUserName": "mcessol2000@gmail.com",
-    "fromMailAddress": "mcessol2000@gmail.com",
-    "senderUserPassword": "mcessol123456"
-  }
-```
 
 
 
