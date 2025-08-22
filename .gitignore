@@ -1,0 +1,11 @@
+.vs/
+.obj/
+*.cache
+*.cache
+*.props
+*.v2
+*.vsidx 
+*.bin
+*.lock
+*.1
+README_IMGs/应用程序数据库生成工具 操作说明Ver3.jpg

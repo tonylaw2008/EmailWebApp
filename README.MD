@@ -124,10 +124,6 @@ public enum MailTemplateEnum
 
  
 
-
-
-
-
 ## 技術文獻：
 
   [ 如何使用 Gmail SMTP 伺服器發送 SRM 電子郵件？]
@@ -139,7 +135,7 @@ public enum MailTemplateEnum
 
 1. 使用内置的System.Net.Mail（但注意过时警告，可能不推荐）。
 
-2. 使用MailKit，更现代、高效，支持更多协议。(推荐 *****)
+2. **使用MailKit，更现代、高效，支持更多协议。(推荐 *)**
 
 3. 使用SendGrid等第三方服务的NuGet包，如果用户愿意使用云服务。
 
@@ -228,11 +224,6 @@ props.put("mail.smtp.writetimeout", "60000");     // 写入超时60秒
 
 **Gmail SMTP服务器正确配置参数**‌：
 
-- 服务器地址：`smtp.gmail.com`45
-- 端口：
-  - 465 (SSL加密)1011
-  - 587 (TLS加密)512
-
  Gmail SMTP 設置指引 https://support.google.com/mail/answer/7104828?authuser=1&hl=zh-Hant&authuser=1&visit_id=637427367852942990-2357665447&rd=1
 
 
@@ -241,69 +232,13 @@ props.put("mail.smtp.writetimeout", "60000");     // 写入超时60秒
 
 **certmgr.msc**
 
-## GoDaddy.com操作設置關鍵
-
-在 `xguard.hk` 域名中添加主机记录 `@` 记录值 `MS=ms63800186` 是用来验证您的域名所有权，并确保 Microsoft 365 的服务可以正常使用。
-
-### 具体作用：
-
-1. **域名验证**：这个记录帮助 Microsoft 验证您对该域名的控制权。只有验证通过，您才能使用 Microsoft 365 的相关服务。
-2. **确保服务正常**：验证成功后，您可以顺利配置和使用 Microsoft 365 的各种功能，如邮箱、日历等。
-
-### 添加方法：
-
-1. 登录到 GoDaddy 账户。
-2. 找到您的域名并进入 DNS 管理界面。
-3. 添加一条 TXT 记录：
-   - 主机：`@`
-   - 值：`MS=ms63800186`
-   - TTL：可以选择默认值。
-
-### 验证过程：
-
-1. 添加后，可能需要一些时间才能生效（通常几分钟到48小时）。
-2. 在 Microsoft 365 管理中心确认域名的验证状态。
-
-确保完成这些步骤，以便顺利使用 Microsoft 365 的服务。
-
-![image-20250816231648681](./README_IMGs/README/image-20250816231648681.png)
-
-The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.57 Client not authenticated to send mail. Error: 535 5.7.139 Authentication unsuccessful, SmtpClientAuthentication is disabled for the Tenant. Visit https://aka.ms/smtp_auth_disabled for more information. [SG2PR03CA0110.apcprd03.prod.outlook.com 2025-08-16T16:15:25.016Z 08DDDCC724527082]
-
-https://learn.microsoft.com/zh-hk/exchange/clients-and-mobile-in-exchange-online/authenticated-client-smtp-submission
 
 
+# Brevo.com SMTP服务
 
-電腦主機設置：
+###### https://www.brevo.com/
 
-先安裝Exchange cmd :  $  Install-Module -Name ExchangeOnlineManagement -RequiredVersion 3.0.0 -Force -AllowClobber
+登录帐号：caXXXXi82@Xmail.com 登记手机号：+8XX-625XX738
 
-Powershell ： $ Set-TransportConfig -SmtpClientAuthenticationDisabled $true
+https://app.brevo.com/contact/list
 
-![image-20250816233422904](./README_IMGs/README/image-20250816233422904.png)
-
-
-
-
-
-## 設置參考bilibili.com
-
-https://www.bilibili.com/opus/733660627150569523
-
- 
-
-Godaddy.com 自己的郵箱 https://www.godaddy.com/zh-sg/email/professional-business-email
-
-
-
-# Gmail.com郵箱服務
-
-測試郵箱服務功能 https://workspace.google.com/intl/zh-HK/products/gmail/
-
-參考設計：
-
-https://www.salescatalysts.com/zh-hk/email-marketing/
-
-
-
-# Email.qq.com郵箱服務
