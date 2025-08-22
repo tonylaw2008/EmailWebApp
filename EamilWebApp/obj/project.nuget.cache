@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "d0x0tM+Jkzg=",
+  "success": true,
+  "projectFilePath": "D:\\APP\\DGX_NET6\\STAR_NEW\\EmailWebApp\\EamilWebApp\\EamilWebApp.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.21.0\\microsoft.visualstudio.azure.containers.tools.targets.1.21.0.nupkg.sha512"
+  ],
+  "logs": []
+}

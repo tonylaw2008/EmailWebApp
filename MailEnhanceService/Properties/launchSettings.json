@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "MailEnhanceService": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

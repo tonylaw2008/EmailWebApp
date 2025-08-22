@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "新增設定檔",
+    "Projects": [
+      {
+        "Path": "MailEnhanceService\\MailEnhanceService.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "EamilWebApp\\EamilWebApp.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

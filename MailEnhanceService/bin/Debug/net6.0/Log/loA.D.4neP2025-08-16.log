@@ -1,0 +1,70 @@
+[2025-08-16 14:15:46,617]  [1]  [INFO]  [EmailHelper initialized
+][2025-08-16 16:03:24,103]  [1]  [INFO]  [EmailHelper initialized
+][2025-08-16 16:03:54,120]  [7]  [ERROR]  [[SmtpException] SMTP server connection failed, please check the server address and port GeneralFailure Failure sending mail.
+]System.Net.Mail.SmtpException: Failure sending mail.
+ ---> System.Net.Sockets.SocketException (11001): 無法識別這台主機。
+   at System.Net.Dns.GetHostEntryOrAddressesCore(String hostName, Boolean justAddresses, AddressFamily addressFamily, ValueStopwatch stopwatch)
+   at System.Net.Dns.GetHostAddresses(String hostNameOrAddress, AddressFamily family)
+   at System.Net.Dns.GetHostAddresses(String hostNameOrAddress)
+   at System.Net.Sockets.TcpClient.Connect(String hostname, Int32 port)
+   at System.Net.Mail.SmtpConnection.GetConnection(String host, Int32 port)
+   at System.Net.Mail.SmtpTransport.GetConnection(String host, Int32 port)
+   at System.Net.Mail.SmtpClient.GetConnection()
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   --- End of inner exception stack trace ---
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at MailEnhanceService.EmailEnhanceHelper.SendMail() in D:\APP\DGX_NET6\DGX_NET6\SourceCode\MailEnhanceService\EmailEnhanceHelper.cs:line 483
+[2025-08-16 16:03:54,166]  [7]  [INFO]  [[2025-08-16 16:03:54] [126 MAIL] [TO:caihaili82@gmail.com] [FAILED] [Elapsed:299ms] [ERROR: SmtpException]
+][2025-08-16 16:03:54,166]  [7]  [ERROR]  [[func::SendMail126] Email sending failure details.
+]System.Net.Mail.SmtpException: Failure sending mail.
+ ---> System.Net.Sockets.SocketException (11001): 無法識別這台主機。
+   at System.Net.Dns.GetHostEntryOrAddressesCore(String hostName, Boolean justAddresses, AddressFamily addressFamily, ValueStopwatch stopwatch)
+   at System.Net.Dns.GetHostAddresses(String hostNameOrAddress, AddressFamily family)
+   at System.Net.Dns.GetHostAddresses(String hostNameOrAddress)
+   at System.Net.Sockets.TcpClient.Connect(String hostname, Int32 port)
+   at System.Net.Mail.SmtpConnection.GetConnection(String host, Int32 port)
+   at System.Net.Mail.SmtpTransport.GetConnection(String host, Int32 port)
+   at System.Net.Mail.SmtpClient.GetConnection()
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   --- End of inner exception stack trace ---
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at MailEnhanceService.EmailEnhanceHelper.SendMail() in D:\APP\DGX_NET6\DGX_NET6\SourceCode\MailEnhanceService\EmailEnhanceHelper.cs:line 483
+[2025-08-16 16:26:22,859]  [1]  [INFO]  [EmailHelper initialized
+][2025-08-16 16:26:56,063]  [10]  [ERROR]  [[SmtpException] SMTP server connection failed, please check the server address and port GeneralFailure The operation has timed out.
+]System.Net.Mail.SmtpException: The operation has timed out.
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at MailEnhanceService.EmailEnhanceHelper.SendMail() in D:\APP\DGX_NET6\DGX_NET6\SourceCode\MailEnhanceService\EmailEnhanceHelper.cs:line 483
+[2025-08-16 16:26:56,106]  [10]  [INFO]  [[2025-08-16 16:26:56] [126 MAIL] [TO:caihaili82@gmail.com] [FAILED] [Elapsed:10138ms] [ERROR: SmtpException]
+][2025-08-16 16:26:56,106]  [10]  [ERROR]  [[func::SendMail126] Email sending failure details.
+]System.Net.Mail.SmtpException: The operation has timed out.
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at MailEnhanceService.EmailEnhanceHelper.SendMail() in D:\APP\DGX_NET6\DGX_NET6\SourceCode\MailEnhanceService\EmailEnhanceHelper.cs:line 483
+[2025-08-16 16:28:50,451]  [1]  [INFO]  [EmailHelper initialized
+][2025-08-16 16:31:02,190]  [9]  [ERROR]  [[SmtpException] SMTP server connection failed, please check the server address and port GeneralFailure The operation has timed out.
+]System.Net.Mail.SmtpException: The operation has timed out.
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at MailEnhanceService.EmailEnhanceHelper.SendMail() in D:\APP\DGX_NET6\DGX_NET6\SourceCode\MailEnhanceService\EmailEnhanceHelper.cs:line 483
+[2025-08-16 16:31:02,219]  [9]  [INFO]  [[2025-08-16 16:31:02] [126 MAIL] [TO:caihaili82@gmail.com] [FAILED] [Elapsed:114815ms] [ERROR: SmtpException]
+][2025-08-16 16:31:02,219]  [9]  [ERROR]  [[func::SendMail126] Email sending failure details.
+]System.Net.Mail.SmtpException: The operation has timed out.
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at MailEnhanceService.EmailEnhanceHelper.SendMail() in D:\APP\DGX_NET6\DGX_NET6\SourceCode\MailEnhanceService\EmailEnhanceHelper.cs:line 483
+[2025-08-16 16:31:16,047]  [12]  [ERROR]  [[SmtpException] SMTP server connection failed, please check the server address and port GeneralFailure The operation has timed out.
+]System.Net.Mail.SmtpException: The operation has timed out.
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at MailEnhanceService.EmailEnhanceHelper.SendMail() in D:\APP\DGX_NET6\DGX_NET6\SourceCode\MailEnhanceService\EmailEnhanceHelper.cs:line 483
+[2025-08-16 16:31:16,047]  [12]  [INFO]  [[2025-08-16 16:31:16] [126 MAIL] [TO:mcessol2000@gmail.com] [FAILED] [Elapsed:10065ms] [ERROR: SmtpException]
+][2025-08-16 16:31:16,047]  [12]  [ERROR]  [[func::SendMail126] Email sending failure details.
+]System.Net.Mail.SmtpException: The operation has timed out.
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at MailEnhanceService.EmailEnhanceHelper.SendMail() in D:\APP\DGX_NET6\DGX_NET6\SourceCode\MailEnhanceService\EmailEnhanceHelper.cs:line 483
+[2025-08-16 17:11:57,936]  [1]  [INFO]  [EmailHelper initialized
+][2025-08-16 22:33:54,385]  [1]  [INFO]  [EmailHelper initialized
+][2025-08-16 22:35:41,189]  [1]  [INFO]  [EmailHelper initialized
+][2025-08-16 22:36:07,177]  [1]  [INFO]  [EmailHelper initialized
+][2025-08-16 22:37:26,366]  [1]  [INFO]  [EmailHelper initialized
+][2025-08-16 23:10:20,504]  [1]  [INFO]  [EmailHelper initialized
+][2025-08-16 23:11:05,319]  [1]  [INFO]  [EmailHelper initialized
+][2025-08-16 23:15:33,129]  [1]  [INFO]  [EmailHelper initialized
+][2025-08-16 23:38:53,942]  [1]  [INFO]  [EmailHelper initialized
+]
