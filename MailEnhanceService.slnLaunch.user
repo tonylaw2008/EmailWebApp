@@ -7,7 +7,7 @@
         "Action": "Start"
       },
       {
-        "Path": "EamilWebApp\\EamilWebApp.csproj",
+        "Path": "SenderEmailAccountSetting\\SenderEmailAccountSetting.csproj",
         "Action": "Start"
       }
     ]

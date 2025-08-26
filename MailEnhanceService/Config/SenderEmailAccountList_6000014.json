@@ -1,0 +1,30 @@
+﻿[
+  {
+    "senderOfCompany": "xguard.hk",
+    "mailTool": 0, // 0: .Net.Mail, 1: MailKit
+    "enableSSL": false, // SSL證書發送，senderServerHostPort=465
+    "enableTSL": true, // TSL 發送，senderServerHostPort=587
+    "enablePasswordAuthentication": true,
+    "senderServerHost": "smtp-relay.brevo.com",
+    "senderServerHostPort": 587, //SSL 默認PORT465 | TLS 默認PORT 587
+    "fromMailAddress": "service@xguard.hk",
+    "fromMailDisplayName": "Service Center Of Xguard",
+    "senderUserName": "955ced001@smtp-brevo.com",
+    "senderUserPassword": "B1LEptMgQODdnr2Z",
+    "Remarks": "[mailTool:System.Net.Mail.SmtpClient=0; MailKit.Net.Smtp.SmtpClient=1] [StartTLS=587;SSL=465] This is the brevo.com email account used for sending emails from XGuard."
+  },
+  {
+    "senderOfCompany": "126.com",
+    "mailTool": 0, // 0: .Net.Mail, 1: MailKit
+    "enableSSL": true,
+    "enableTSL": false,
+    "enablePasswordAuthentication": true,
+    "senderServerHost": "smtp.126.com",
+    "senderServerHostPort": 465,
+    "fromMailAddress": "xguard@126.com",
+    "fromMailDisplayName": "Service Center Of Xguard",
+    "senderUserName": "xguard@126.com",
+    "senderUserPassword": "SAHMIMINZLHDRXSD",
+    "Remarks": "126.com free email box"
+  }
+]

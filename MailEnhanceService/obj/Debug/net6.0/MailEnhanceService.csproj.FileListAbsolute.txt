@@ -119,15 +119,9 @@ D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\System.
 D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\System.Text.Encodings.Web.dll
 D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\System.Text.Json.dll
 D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\System.Windows.Extensions.dll
-D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
 D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Diagnostics.EventLog.Messages.dll
 D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Diagnostics.EventLog.dll
-D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
-D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
-D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
-D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
-D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\obj\Debug\net6.0\MailEnhanceService.csproj.AssemblyReference.cache
 D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\obj\Debug\net6.0\MailEnhanceService.GeneratedMSBuildEditorConfig.editorconfig
 D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\obj\Debug\net6.0\MailEnhanceService.AssemblyInfoInputs.cache
@@ -139,3 +133,19 @@ D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\obj\Debug\net6.0\refint\
 D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\obj\Debug\net6.0\MailEnhanceService.pdb
 D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\obj\Debug\net6.0\MailEnhanceService.genruntimeconfig.cache
 D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\obj\Debug\net6.0\ref\MailEnhanceService.dll
+D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\obj\Debug\net6.0\MailEnhanceService.sourcelink.json
+D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\BouncyCastle.Cryptography.dll
+D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\MailKit.dll
+D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\MimeKit.dll
+D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\System.Formats.Asn1.dll
+D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll
+D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\System.Text.Encoding.CodePages.dll
+D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll
+D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Text.Encoding.CodePages.dll
+D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\appsettings - 郵件賬戶備份.json
+D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
+D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
+D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\MailEnhanceService\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll

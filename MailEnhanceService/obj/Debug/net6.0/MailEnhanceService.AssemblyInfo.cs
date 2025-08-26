@@ -13,8 +13,8 @@ using System.Reflection;
 
 [assembly: System.Reflection.AssemblyCompanyAttribute("MailEnhanceService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7a940e1e2a7924cb02c73631d4d2a10c2ee49743")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0..0822")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6b609fae610e682eda8e70e6207291852bc0bd15")]
 [assembly: System.Reflection.AssemblyProductAttribute("MailEnhanceService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MailEnhanceService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

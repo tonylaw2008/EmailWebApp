@@ -8,4 +8,7 @@
 *.bin
 *.lock
 *.1
+bin/
+obj/
+EMAIL賬號配置程式/
 README_IMGs/应用程序数据库生成工具 操作说明Ver3.jpg

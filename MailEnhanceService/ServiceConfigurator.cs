@@ -1,12 +1,18 @@
 ﻿using log4net;
 using log4net.Config;
 using log4net.Repository;
+using log4net.Repository.Hierarchy;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Security.AccessControl; 
+using Microsoft.Extensions.Hosting;
 
 namespace MailEnhanceService
 {
@@ -28,13 +34,13 @@ namespace MailEnhanceService
                 .Build();
         }
 
-        public static IServiceCollection ConfigureServices(IServiceCollection services)
-        {
+        public static IServiceCollection ConfigureServices(IServiceCollection services, string? mainComId)
+        { 
             var configuration = ReadFromAppSettings();
 
             var emailSettingOptions = new EmailSettingOptions();
             configuration.GetSection("senderEmailAccountList").Bind(emailSettingOptions.SenderEmailAccountList);
-
+             
             // 关键修复：同时注册具体类型和接口类型
             var accountList = emailSettingOptions.SenderEmailAccountList;
             services.AddSingleton(accountList); // 注册具体类型 List<SenderEmailAccount>
@@ -42,18 +48,27 @@ namespace MailEnhanceService
 
             // 配置内存缓存
             services.AddMemoryCache();
-
+           
             // 配置 log4net
             services = ConfigureLog4Net(services);
 
             // 注册服务（使用瞬态生命周期）
-            services.AddTransient<EmailEnhanceHelper>();
+            mainComId = mainComId ?? string.Empty; 
+            services.AddSingleton(mainComId);
             services.AddTransient<EmailAppService>();
 
+            // 注入郵件發送單元
+            services.AddTransient<EmailEnhanceHelper>();
+
+            services.AddLogging(builder =>
+            {
+                builder.ClearProviders();
+                builder.AddLog4Net(); // 使用 log4net
+            });
+             
             return services;
         }
-
-
+          
         /// <summary>
         ///  日誌Log4net服務擴展
         /// </summary>
@@ -90,12 +105,40 @@ namespace MailEnhanceService
 
             return services;
         }
-       
-
-        public static IServiceCollection AddMailEnhanceService(this IServiceCollection services)
+         
+        public static IServiceCollection AddMailEnhanceService(this IServiceCollection services,string? mainComId)
         {
-            return ConfigureServices(services);
+            mainComId = mainComId ?? string.Empty;
+            return ConfigureServices(services, mainComId);
+        }
+
+        // 配置中間件 范例 （未使用2025-8-25）
+        public static void  Configure(IApplicationBuilder app, IHostEnvironment hostEnvironment)
+        {  
+            //test middleware
+            app.UseMiddleware<EnsureResponseNotStartedMiddleware>();
+             
         }
     }
- }
+
+    public class EnsureResponseNotStartedMiddleware
+    {
+        private readonly RequestDelegate _next;
+
+        public EnsureResponseNotStartedMiddleware(RequestDelegate next)
+        {
+            _next = next;
+        }
+
+        public Task InvokeAsync(HttpContext context)
+        {
+            if (!context.Response.HasStarted)
+            {
+                return _next(context);
+            }
+
+            return Task.CompletedTask;
+        }
+    }
+}
 
