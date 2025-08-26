@@ -2,6 +2,8 @@
 
  https://github.com/tonylaw2008/EmailWebApp.git
 
+Version: 1.0.0
+
 ### 功能
 
 > [!IMPORTANT]
