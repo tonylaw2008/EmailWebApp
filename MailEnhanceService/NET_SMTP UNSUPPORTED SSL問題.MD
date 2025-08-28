@@ -1,4 +1,4 @@
-# System.Net.Mail.SmtpClient 不支持SSL
+# System.Net.Mail.SmtpClient 嗯支持SSL
 
 
 

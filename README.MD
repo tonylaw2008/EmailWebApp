@@ -140,6 +140,16 @@ props.put("mail.smtp.writetimeout", "60000");     // 写入超时60秒
 
 在配置SMTP客户端时，‌**enableSSL属性通常需要设置为启用状态**‌，特别是使用主流邮件服务商(如Gmail、QQ、163等)的SMTP服务时。这是因为现代邮件服务商普遍要求使用SSL/TLS加密来确保邮件传输的安全性。
 
+
+
+# SSL證書要求
+
+運行中提示： [★★★★★★] [mailKitClient.ServerCertificateValidationCallback] No SSL policy errors.[★★★★★★] 代表發郵件的服務器沒有相關的證書錯誤。
+
+另一方面：如果有郵件的ISP提供商，必須要求本地客戶端證書，那是則需要加載SSL，暫時使用中的 Brevo.com未需要。
+
+![image-20250827192422129](./README_IMGs/README/image-20250827192422129.png)
+
 ## 不同邮件服务商的加密要求
 
 根据搜索结果，主流邮件服务商对SMTP加密的要求如下：
@@ -306,3 +316,16 @@ SSL 證書與非證書區別  TLS加密的都是最簡單的發送方式，要�
 使用配置工具配置發郵件賬號列表
 
 SenderEmailAccountList_6000014.Json
+
+# 執行命令模式
+
+可通過CMD 或 Powershell 等執行命令：
+
+```
+cmd:
+$ MailEnhanceService "abc@gmail.com" "abc@yahoo.com"
+------------------------------------------------------
+powershell:
+$ ./MailEnhanceService "abc@gmail.com" "abc@yahoo.com"
+```
+

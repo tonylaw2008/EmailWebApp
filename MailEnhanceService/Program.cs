@@ -36,6 +36,10 @@ else
     }
 }
 
+// 附件
+string[] attachmentFileList = new string[] { @"D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\README_IMGs\README\DMZ_SETTING.jpg",
+                                             @"D:\APP\DGX_NET6\STAR_NEW\EmailWebApp\README_IMGs\README\EMAIL_SENDER_SETTTING.jpg" }; // 多个附件
+
 // 作为控制台应用运行
 Console.WriteLine("\nThe Console application is running now....\n\n");
 
@@ -61,7 +65,7 @@ success = await emailAppService.RunAsync(
     "", // 不使用模板，必須 MailTemplateEnum.NO_TEMPLATE
     "en-US",//如果是使用模版，則使用什麼語言版本的模板。
     "http://192.168.0.9:8080/zh-HK/Device/CardDocBuild",
-    null);
+    attachmentFileList);
 
 
 Console.WriteLine($"[測試郵件主題]-多個郵件地址發送整體結果: {success}");

@@ -22,8 +22,6 @@ using MimeKit.Text;
 using MailKit.Security;
 using Microsoft.Extensions.Caching.Memory;
 using System.Runtime.Caching;
-using Microsoft.Extensions.Hosting;
-using System.Net.Security;
 
 
 namespace MailEnhanceService
@@ -37,10 +35,10 @@ namespace MailEnhanceService
     {
         NO_TEMPLATE = -1, //不使用模版，直接傳入內容
         REGISTER = 0,
-        FORGET_PASSWORD = 1,   
-        PRIVACY_CONTENT = 3
-    } 
-
+        FORGET_PASSWORD = 1,
+        PRIVACY_CONTENT = 3 
+    }
+     
     public enum MailToolEnum
     {
         SYSTEM_NET_MAIL_SMTP = 0,
@@ -168,6 +166,7 @@ namespace MailEnhanceService
             _memoryCache = memoryCache;
             _logger = logger;
             _logger.LogInformation("EmailHelper initialized"); 
+
         }
 
         ///<summary>
@@ -353,7 +352,7 @@ namespace MailEnhanceService
                 string status = sendSuccess ? "SUCCESS" : "FAILED";
                 string errorInfo = lastException != null ? $"[ERROR: {lastException.GetType().Name}]" : "";
 
-                string loggerLine = $" [func::SendMailAsynchronous] [TO:{_mailMessageMain.ToMail}] [{status}] [FROM:{_senderAccount.SenderUserName}] [Elapsed:{sw.ElapsedMilliseconds}ms] {errorInfo}";
+                string loggerLine = $"[func::SendMailAsynchronous] [TO:{_mailMessageMain.ToMail}] [{status}] [FROM:{_senderAccount.SenderUserName}] [Elapsed:{sw.ElapsedMilliseconds}ms] {errorInfo}";
 
                 //Console.WriteLine(loggerLine);
                 _logger.LogInformation(loggerLine);
@@ -393,22 +392,22 @@ namespace MailEnhanceService
 
             try
             {
-                // 初始化MailKit郵件訊息
+                // 初始化MailKit邮件消息  
                 _mailKitMessage.From.Add(new MailboxAddress(
-                _senderAccount.FromMailDisplayName,
-                _senderAccount.FromMailAddress));
+                    _senderAccount.FromMailDisplayName,
+                    _senderAccount.FromMailAddress));
 
-                // 新增收件者
+                // 添加收件人
                 MailboxAddress receiver = new MailboxAddress(
-                _mailMessageMain.ToMailDisplayName ?? _mailMessageMain.ToMail,
-                _mailMessageMain.ToMail);
+                    _mailMessageMain.ToMailDisplayName ?? _mailMessageMain.ToMail,
+                    _mailMessageMain.ToMail);
                 _mailKitMessage.To.Add(receiver);
 
                 _mailKitMessage.Subject = _mailMessageMain.Subject;
                 _mailKitMessage.Priority = MessagePriority.Normal;
                 _mailKitMessage.Sender = new MailboxAddress(_senderAccount.FromMailDisplayName, _senderAccount.FromMailAddress);
 
-                // 新增附件到郵件
+                // 添加附件到郵件
                 if (_mailMessageMain.AttachedFiles != null && _mailMessageMain.AttachedFiles.Length > 0)
                 {
                     foreach (var itemFile in _mailMessageMain.AttachedFiles)
@@ -416,7 +415,6 @@ namespace MailEnhanceService
                         if (File.Exists(itemFile))
                         {
                             AddMailKitAttachments(itemFile);
-                            _logger.LogInformation($"[func::SendMailKitAsynchronous] Attachment file: {itemFile}");
                         }
                         else
                         {
@@ -433,86 +431,26 @@ namespace MailEnhanceService
 
                 using MailKit.Net.Smtp.SmtpClient mailKitClient = new MailKit.Net.Smtp.SmtpClient();
 
-                // 新增伺服器憑證驗證回傳 accept all SSL certificates（可選但建議） 
-                // 優化後的伺服器憑證驗證回調
-                // 一般目前的郵局服務都具有SSL證書
-                mailKitClient.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) =>
-                {
-                    // 1. 1. 邊界處理：伺服器未傳回憑證（極端情況）
-                    if (certificate == null)
-                    {
-                        _logger.LogError("[ServerCertificateValidationCallback] 服务器未提供SSL证书，无法建立安全连接");
-                        return false; // 無證書直接拒絕
-                    }
+                // 添加服务器证书验证回调 accept all SSL certificates（可选但推荐）  
+                //mailKitClient.ServerCertificateValidationCallback = (s, c, h, e) => true; 或者
+                mailKitClient.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => {
 
-                    // 2. 基礎資訊日誌（無論是否有錯誤，先記錄證書關鍵訊息，以便排查）
-                    var certLog = new
-                    {
-                        Subject = certificate.Subject,
-                        Issuer = certificate.Issuer,
-                        Thumbprint = certificate.GetCertHashString(), // 證書指紋（唯一識別）
-                        ValidFrom = certificate.GetEffectiveDateString(), // 有效期限起始
-                        ValidTo = certificate.GetExpirationDateString(), // 有效期限結束
-                        SslErrors = sslPolicyErrors.ToString()
-                    };
-                    _logger.LogInformation("[ServerCertificateValidationCallback] 服务器证书信息：{@CertInfo}", certLog);
+                    // sender: 触发事件的对象（通常是SmtpClient实例）
+                    // certificate: 服务器提供的X509Certificate证书
+                    // chain: X509Chain包含证书链信息
+                    // sslPolicyErrors: SslPolicyErrors枚举，标识验证过程中发现的错误
 
-                    // 3. 無錯誤場景：直接通過驗證
-                    if (sslPolicyErrors == SslPolicyErrors.None)
-                    {
-                        // 驗證憑證是否有效
-                        if (DateTime.Parse(certificate.GetExpirationDateString()) < DateTime.Now)
-                        {
-                            _logger.LogError("[ServerCertificateValidationCallback] 服务器证书已过期（有效期：{ValidFrom} ~ {ValidTo}）",
-                                certLog.ValidFrom, certLog.ValidTo);
-                            return false;
-                        }
-                         
-                        _logger.LogInformation("[ServerCertificateValidationCallback] 服务器证书验证通过（无错误且有效期正常）");
-                        return true;
-                    }
+                    // 在这里可以添加自定义证书验证逻辑
+                    // 返回 true 表示接受证书，false 表示拒绝
 
-                    // 4. 有錯誤場景：按錯誤類型細分處理（結合配置策略）
-                    _logger.LogError("[ServerCertificateValidationCallback] 服务器证书验证失败，错误类型：{SslErrors}", sslPolicyErrors);
+                    // 记录证书信息（用于调试）
+                    _logger.LogInformation($"Validating server certificate: {certificate?.Subject}");
 
-
-                    // 4.2 非嚴格模式：僅允許特定類型的錯誤（如測試環境允許自簽名）
-                    switch (sslPolicyErrors)
-                    {
-                        // 场景1：证书链错误（常见于自签名证书，或根证书未安装）
-                        //case SslPolicyErrors.RemoteCertificateChainErrors:
-                        //    // 检查是否允许自签名证书  _senderAccount.IsAllowSelfSignedCertificate=沒有此參數定義
-                        //    if (_senderAccount.IsAllowSelfSignedCertificate)
-                        //    {
-                        //        // 验证证书链是否为自签名（简单判断：颁发者 == 主题）
-                        //        bool isSelfSigned = string.Equals(certificate.Issuer, certificate.Subject, StringComparison.OrdinalIgnoreCase);
-                        //        if (isSelfSigned)
-                        //        {
-                        //            _logger.LogWarning("[ServerCertificateValidationCallback] 允许自签名证书（测试环境专用），跳过证书链错误");
-                        //            return true;
-                        //        }
-                        //        _logger.LogError("[ServerCertificateValidationCallback] 非自签名证书的证书链错误，不允许跳过（需安装根证书）");
-                        //        return false;
-                        //    }
-                        //    _logger.LogError("[ServerCertificateValidationCallback] 未启用「允许自签名」，拒绝证书链错误的证书");
-                        //    return false;
-
-                        // 场景2：证书名称不匹配（通常是服务器地址与证书主题不一致，如用IP访问但证书是域名）
-                        case SslPolicyErrors.RemoteCertificateNameMismatch:
-                            _logger.LogError("[ServerCertificateValidationCallback] 证书名称与服务器地址不匹配（可能是访问地址错误，或证书配置错误）");
-                            return false; // 名称不匹配风险高，即使非严格模式也拒绝
-
-                        // 场景3：服务器未提供证书（已在步骤1处理，此处冗余防止枚举新增）
-                        case SslPolicyErrors.RemoteCertificateNotAvailable:
-                            _logger.LogError("[ServerCertificateValidationCallback] 服务器未提供有效的SSL证书");
-                            return false;
-
-                        // 其他未定义错误：默认拒绝
-                        default:
-                            _logger.LogError("[ServerCertificateValidationCallback] 未知的证书验证错误，拒绝连接");
-                            return false;
-                    }
+                    // 对于生产环境，应该实现适当的验证逻辑
+                    // 这里简单返回true接受所有证书（仅用于测试/开发环境）
+                    return true;
                 };
+
                 // 關鍵修復：根據SSL/TLS配置選擇正確的SecureSocketOptions
                 SecureSocketOptions secureOptions;
                 if (_senderAccount.EnableSSL)
@@ -520,20 +458,20 @@ namespace MailEnhanceService
                     // SSL加密（通常對應埠465）
                     secureOptions = SecureSocketOptions.SslOnConnect;
 
-                    // 載入PFX格式的憑證（客戶端憑證）
+                    // 載入PFX格式的證書（客戶端證書）
                     var certificate = LoadCertificate(_mailComId);
 
                     if (certificate != null)
                     {
-                        // 某些伺服器(指Brevo.com)可能需要客戶端 SSL 憑證才能允許使用者連線。 
-                        // 載入PFX格式的憑證。 
-                        // 而不是指目標收件人的服務器要求SSL證書。 
-                        if (mailKitClient.ClientCertificates != null)
+                        // 某些伺服器(指Brevo.com)可能需要客戶端 SSL 憑證才能允許使用者連線。
+                        // 載入PFX格式的證書。
+                        // 而不是指目標收件人的服務器要求SSL證書。
+                        if(mailKitClient.ClientCertificates!=null)
                         {
                             mailKitClient.ClientCertificates.Add(certificate);
-                            _logger.LogInformation($"★★★★★[func::SendMailKitAsynchronous] Loaded client certificate for {_mailComId}: " +
-                            $"Subject={certificate.Subject}, Thumbprint={certificate.Thumbprint}, " +
-                            $"HasPrivateKey={certificate.HasPrivateKey}");
+                            _logger.LogInformation($"[func::SendMailKitAsynchronous] Loaded client certificate for {_mailComId}: " +
+                                                  $"Subject={certificate.Subject}, Thumbprint={certificate.Thumbprint}, " +
+                                                  $"HasPrivateKey={certificate.HasPrivateKey}");
                         }
                     }
                     else
@@ -542,52 +480,51 @@ namespace MailEnhanceService
                     }
 
                     // 明確指定SSL/TLS協定版本（可選）
-                    mailKitClient.SslProtocols = System.Security.Authentication.SslProtocols.Tls11 |
-                         System.Security.Authentication.SslProtocols.Tls12 |
-                         System.Security.Authentication.SslProtocols.Tls13;
+                    mailKitClient.SslProtocols = System.Security.Authentication.SslProtocols.Tls12 |
+                                                System.Security.Authentication.SslProtocols.Tls13;
                 }
                 else if (_senderAccount.EnableTSL)
                 {
-                    // STARTTLS加密（通常對應埠587）
+                    // STARTTLS加密（通常对应端口587）
                     secureOptions = SecureSocketOptions.StartTls;
 
-                    // 明確指定TLS協定版本（可選）
+                    // 明确指定TLS协议版本（可选）
                     mailKitClient.SslProtocols = System.Security.Authentication.SslProtocols.Tls12;
                 }
                 else
                 {
-                    // 不使用任何安全性協定（極端情況）
+                    // 不使用任何安全協議（極端情況）
                     secureOptions = SecureSocketOptions.None;
                     _logger.LogWarning("[func::SendMailKitAsynchronous] Using unencrypted connection. This is not recommended for production.");
                 }
 
-                // 連接SMTP伺服器（使用動態運算的加密選項）
+                // 连接SMTP服务器（使用动态计算的加密选项）
                 _logger.LogInformation($"[func::SendMailKitAsynchronous] Connecting to {_senderAccount.SenderServerHost}:{_senderAccount.SenderServerHostPort} with {secureOptions}");
 
                 await mailKitClient.ConnectAsync(
-                _senderAccount.SenderServerHost,
-                _senderAccount.SenderServerHostPort,
-                secureOptions);
-
+                    _senderAccount.SenderServerHost,
+                    _senderAccount.SenderServerHostPort,
+                    secureOptions);
+                 
                 _logger.LogInformation($"[func::SendMailKitAsynchronous] Connected successfully. SSL/TLS established: {mailKitClient.IsSecure}");
 
-                // 身份驗證
+                // 身份验证
                 if (_senderAccount.EnablePasswordAuthentication)
                 {
                     _logger.LogInformation($"[func::SendMailKitAsynchronous] Authenticating as {_senderAccount.SenderUserName}");
 
                     await mailKitClient.AuthenticateAsync(
-                    _senderAccount.SenderUserName,
-                    _senderAccount.SenderUserPassword);
+                        _senderAccount.SenderUserName,
+                        _senderAccount.SenderUserPassword);
 
                     _logger.LogInformation("[func::SendMailKitAsynchronous] Authentication successful");
                 }
 
-                // 傳送郵件
+                // 发送邮件
                 _logger.LogInformation("[func::SendMailKitAsynchronous] Sending email...");
                 await mailKitClient.SendAsync(_mailKitMessage);
 
-                // 斷開連接
+                // 断开连接
                 await mailKitClient.DisconnectAsync(true);
 
                 _logger.LogInformation("[func::SendMailKitAsynchronous] Email sent successfully");
@@ -601,17 +538,17 @@ namespace MailEnhanceService
             catch (MailKit.Security.SslHandshakeException sslEx)
             {
                 lastException = sslEx;
-                _logger.LogError(sslEx, $"[SslHandshakeException] SSL/TLS握手失敗。請檢查連接埠與加密方式是否符合（連接埠587通常用STARTTLS，465用SSL）");
+                _logger.LogError(sslEx, $"[SslHandshakeException] SSL/TLS握手失败。请检查端口与加密方式是否匹配（端口587通常用STARTTLS，465用SSL）");
             }
             catch (MailKit.Security.AuthenticationException authEx)
             {
                 lastException = authEx;
-                _logger.LogError(authEx, "[AuthenticationException] 驗證失敗，請檢查使用者名稱和密碼");
+                _logger.LogError(authEx, "[AuthenticationException] 身份验证失败，请检查用户名和密码");
             }
             catch (System.Net.Sockets.SocketException socketEx)
             {
                 lastException = socketEx;
-                _logger.LogError(socketEx, $"[SocketException] 網路連線錯誤: {socketEx.SocketErrorCode}");
+                _logger.LogError(socketEx, $"[SocketException] 网络连接错误: {socketEx.SocketErrorCode}");
             }
             catch (WebException webEx)
             {
@@ -621,7 +558,7 @@ namespace MailEnhanceService
             catch (Exception ex)
             {
                 lastException = ex;
-                _logger.LogError(ex, "[func::SendMailKitAsynchronous] 發生意外錯誤");
+                _logger.LogError(ex, "[func::SendMailKitAsynchronous] 发生意外错误");
             }
             finally
             {
@@ -630,23 +567,23 @@ namespace MailEnhanceService
                 string errorInfo = lastException != null ? $"[ERROR: {lastException.GetType().Name}]" : "";
 
                 string loggerLine = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] [MailKit] [TO:{_mailMessageMain.ToMail}] " +
-                $"[FROM:{_senderAccount.FromMailAddress}] [{status}] [Elapsed:{sw.ElapsedMilliseconds}ms] {errorInfo}";
+                                   $"[FROM:{_senderAccount.FromMailAddress}] [{status}] [Elapsed:{sw.ElapsedMilliseconds}ms] {errorInfo}";
 
                 // Console.WriteLine(loggerLine);
                 _logger.LogInformation(loggerLine);
-
+                 
                 if (lastException != null)
                 {
-                    _logger.LogError(lastException, "[func::SendMailKitAsynchronous] 郵件傳送失敗詳情");
+                    _logger.LogError(lastException, "[func::SendMailKitAsynchronous] 邮件发送失败详情");
                 }
 
-                // 清理資源
+                // 清理资源
                 _mailMessage.Dispose();
                 _mailKitMessage.Dispose();
             }
             return sendSuccess;
         }
-
+        
         /// <summary>
         /// 異步發送郵件 Sending emails asynchronously
         /// </summary>
@@ -721,19 +658,19 @@ namespace MailEnhanceService
             switch (exCode)
             {
                 case MailKit.Net.Smtp.SmtpErrorCode.SenderNotAccepted:
-                    _logger.LogError($"[MailKit.Net.Smtp.SmtpErrorCode.SenderNotAccepted {MailKit.Net.Smtp.SmtpErrorCode.SenderNotAccepted}][From:{_senderAccount?.FromMailAddress ?? string.Empty}] A recipient's mailbox address was not accepted. Check the SmtpCommandException.Mailbox");
+                    _logger.LogError($"[MailKit.Net.Smtp.SmtpErrorCode.SenderNotAccepted {MailKit.Net.Smtp.SmtpErrorCode.SenderNotAccepted}] A recipient's mailbox address was not accepted. Check the SmtpCommandException.Mailbox");
                     break;
                 case MailKit.Net.Smtp.SmtpErrorCode.UnexpectedStatusCode:
-                    _logger.LogError($"[MailKit.Net.Smtp.SmtpErrorCode.UnexpectedStatusCode {MailKit.Net.Smtp.SmtpErrorCode.UnexpectedStatusCode}][From:{_senderAccount?.FromMailAddress ?? string.Empty}]");
+                    _logger.LogError($"[MailKit.Net.Smtp.SmtpErrorCode.UnexpectedStatusCode {MailKit.Net.Smtp.SmtpErrorCode.UnexpectedStatusCode}]");
                     break;
                 case MailKit.Net.Smtp.SmtpErrorCode.RecipientNotAccepted:
-                    _logger.LogError($"[MailKit.Net.Smtp.SmtpErrorCode.RecipientNotAccepted {MailKit.Net.Smtp.SmtpErrorCode.RecipientNotAccepted}][From:{_senderAccount?.FromMailAddress??string.Empty}]");
+                    _logger.LogError($"[MailKit.Net.Smtp.SmtpErrorCode.RecipientNotAccepted {MailKit.Net.Smtp.SmtpErrorCode.RecipientNotAccepted}]");
                     break;
                 case MailKit.Net.Smtp.SmtpErrorCode.MessageNotAccepted:
-                    _logger.LogError($"[MailKit.Net.Smtp.SmtpErrorCode.MessageNotAccepted {MailKit.Net.Smtp.SmtpErrorCode.MessageNotAccepted}][From:{_senderAccount?.FromMailAddress ?? string.Empty}]");
+                    _logger.LogError($"[MailKit.Net.Smtp.SmtpErrorCode.MessageNotAccepted {MailKit.Net.Smtp.SmtpErrorCode.MessageNotAccepted}]");
                     break; 
                 default:
-                    _logger.LogError($"[SmtpErrorCode] MailKit.Net.Smtp.SmtpErrorCode : {exCode}[From:{_senderAccount?.FromMailAddress ?? string.Empty}]");
+                    _logger.LogError($"[SmtpErrorCode] MailKit.Net.Smtp.SmtpErrorCode : {exCode}");
                     break;
             }
         }
@@ -757,7 +694,6 @@ namespace MailEnhanceService
             }
         }
 
-        //SecureString 是 C# 中用於增強敏感資料記憶體安全性的專用類型，適合處理需要暫時儲存且需嚴格保護的資訊。
         private SecureString SecureStringConverter(string pass)
         {
             SecureString ret = new SecureString();
@@ -810,9 +746,6 @@ namespace MailEnhanceService
                         // 如果有指定 mainComId，則使用對應的憑證路徑
                         string pathOfMainComCer = Path.Combine(AppContext.BaseDirectory, "Cer", mainComId, $"{mainComId}.pfx");
                         string pathOfMainComPassword = Path.Combine(AppContext.BaseDirectory, "Cer", mainComId, $"{mainComId}_password.txt");
-
-                        _logger.LogInformation($"[func::LoadCertificate] [cer] pathOfMainComCer: {pathOfMainComCer} and  pathOfMainComPassword={pathOfMainComPassword}");
-
                         if (File.Exists(pathOfMainComCer) && File.Exists(pathOfMainComPassword))
                         {
                             //使用公司特定的憑證路徑
