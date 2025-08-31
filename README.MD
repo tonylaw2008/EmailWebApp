@@ -311,3 +311,11 @@ $ ./MailEnhanceService "abc@gmail.com" "abc@yahoo.com"
 打開程式： SenderEmailAccountSetting.exe
 
 ![郵件賬號配置1](./README_IMGs/README/%E9%83%B5%E4%BB%B6%E8%B3%AC%E8%99%9F%E9%85%8D%E7%BD%AE1.jpg)
+
+如果存在配置，則優先選擇配置文件的設置：
+
+./config/SenderEmailAccountList_6000014.json
+
+例如：
+
+DataGuardX/Config/SenderEmailAccountList_6000014.json
