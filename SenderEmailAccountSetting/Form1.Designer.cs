@@ -56,9 +56,12 @@
             richTextBox1 = new RichTextBox();
             button1 = new Button();
             toolTip1 = new ToolTip(components);
+            chkAddToList = new CheckBox();
             button2 = new Button();
             button3 = new Button();
             label9 = new Label();
+            button4 = new Button();
+            saveFileDialog1 = new SaveFileDialog();
             SuspendLayout();
             // 
             // lblSenderOfCompany
@@ -72,6 +75,7 @@
             // 
             // txtSenderOfCompany
             // 
+            txtSenderOfCompany.AutoCompleteCustomSource.AddRange(new string[] { "gmail.com", "126.com", "yahoo.com.hk" });
             txtSenderOfCompany.Location = new Point(187, 31);
             txtSenderOfCompany.Name = "txtSenderOfCompany";
             txtSenderOfCompany.Size = new Size(157, 23);
@@ -173,6 +177,7 @@
             txtSenderServerHost.Name = "txtSenderServerHost";
             txtSenderServerHost.Size = new Size(157, 23);
             txtSenderServerHost.TabIndex = 11;
+            toolTip1.SetToolTip(txtSenderServerHost, "like this: smtp.gmali.com");
             // 
             // label5
             // 
@@ -185,6 +190,7 @@
             // 
             // txtSenderServerHostPort
             // 
+            txtSenderServerHostPort.AutoCompleteCustomSource.AddRange(new string[] { "465", "587" });
             txtSenderServerHostPort.Location = new Point(187, 217);
             txtSenderServerHostPort.Name = "txtSenderServerHostPort";
             txtSenderServerHostPort.Size = new Size(157, 23);
@@ -238,6 +244,7 @@
             // 
             // txtRemarks
             // 
+            txtRemarks.AutoCompleteCustomSource.AddRange(new string[] { "[mailTool:System.Net.Mail.SmtpClient=0; MailKit.Net.Smtp.SmtpClient=1] [StartTLS=587;SSL=465] This is the brevo.com email account used for sending emails from MyCompany." });
             txtRemarks.Location = new Point(187, 385);
             txtRemarks.Name = "txtRemarks";
             txtRemarks.Size = new Size(261, 23);
@@ -249,6 +256,7 @@
             txtSenderUserPassword.Name = "txtSenderUserPassword";
             txtSenderUserPassword.Size = new Size(157, 23);
             txtSenderUserPassword.TabIndex = 24;
+            toolTip1.SetToolTip(txtSenderUserPassword, "Smtp Server login Password");
             // 
             // txtSenderUserName
             // 
@@ -256,20 +264,25 @@
             txtSenderUserName.Name = "txtSenderUserName";
             txtSenderUserName.Size = new Size(157, 23);
             txtSenderUserName.TabIndex = 25;
+            toolTip1.SetToolTip(txtSenderUserName, "Smtp Server login Account, Like This :  ServiceCenter@MyCompany.com");
             // 
             // txtFromMailDisplayName
             // 
+            txtFromMailDisplayName.AutoCompleteCustomSource.AddRange(new string[] { "My Compny Service Department" });
             txtFromMailDisplayName.Location = new Point(187, 284);
             txtFromMailDisplayName.Name = "txtFromMailDisplayName";
             txtFromMailDisplayName.Size = new Size(157, 23);
             txtFromMailDisplayName.TabIndex = 26;
+            toolTip1.SetToolTip(txtFromMailDisplayName, "Like this : Manager Jack Ma");
             // 
             // txtFromMailAddress
             // 
+            txtFromMailAddress.AutoCompleteCustomSource.AddRange(new string[] { "service123123@gmail.com" });
             txtFromMailAddress.Location = new Point(187, 249);
             txtFromMailAddress.Name = "txtFromMailAddress";
             txtFromMailAddress.Size = new Size(157, 23);
             txtFromMailAddress.TabIndex = 27;
+            toolTip1.SetToolTip(txtFromMailAddress, "Like This : JackMa@gmail.com");
             // 
             // richTextBox1
             // 
@@ -281,13 +294,26 @@
             // 
             // button1
             // 
-            button1.Location = new Point(33, 446);
+            button1.Location = new Point(33, 445);
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 29;
             button1.Text = "Generate";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
+            // 
+            // chkAddToList
+            // 
+            chkAddToList.AutoSize = true;
+            chkAddToList.Checked = true;
+            chkAddToList.CheckState = CheckState.Checked;
+            chkAddToList.Location = new Point(128, 448);
+            chkAddToList.Name = "chkAddToList";
+            chkAddToList.Size = new Size(89, 19);
+            chkAddToList.TabIndex = 33;
+            chkAddToList.Text = "Add To List";
+            toolTip1.SetToolTip(chkAddToList, "Save to Aspsettings.josn or SenderEmailAccountList_6000018.json");
+            chkAddToList.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
@@ -318,11 +344,23 @@
             label9.TabIndex = 32;
             label9.Text = "MailKit tool sends SSL, .NET MAIL does not support it, and its functions are limited.";
             // 
+            // button4
+            // 
+            button4.Location = new Point(984, 385);
+            button4.Name = "button4";
+            button4.Size = new Size(101, 23);
+            button4.TabIndex = 34;
+            button4.Text = "&Save to file";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1097, 515);
+            Controls.Add(button4);
+            Controls.Add(chkAddToList);
             Controls.Add(label9);
             Controls.Add(button3);
             Controls.Add(button2);
@@ -354,6 +392,7 @@
             Controls.Add(lblSenderOfCompany);
             Name = "Form1";
             Text = "發送EMAIL賬號配置";
+            Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -390,5 +429,8 @@
         private Button button2;
         private Button button3;
         private Label label9;
+        private CheckBox chkAddToList;
+        private Button button4;
+        private SaveFileDialog saveFileDialog1;
     }
 }

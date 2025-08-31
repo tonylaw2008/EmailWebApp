@@ -10,7 +10,7 @@ Version: 1.0.0
 >
 > 项目：EamilWebApp.csproj 负责用户界面，Email内容编辑与简单Email发送账号列表.
 >
-> 项目：MailEnhanceService.csproj 负责邮件服务接口管理和发送任务，为其他包括EamilWebApp, Proj提供邮件发送接口。
+> 项目：MailEnhanceService.csproj 负责邮件服务接口管理和发送任务，为其他包括EamilWebApp.Proj提供邮件发送接口, 包括使用Package: 系統內置System.Net.Mail.SMTP以及MailKit。
 
 ![image-20250825212608369](./README_IMGs/README/image-20250825212608369.png)
 
@@ -47,38 +47,13 @@ EamilWebApp.csproj :
 	1. 提供email數據庫編輯，標籤管理，按標籤群發郵件功能。
 	1. 模版編輯器功能。
 
-## 注意问题
+## 注意問題
 
  允許簡單的標準化、普通化的模版： MailTemplateEnum 這個常量定義的模版可以直接使用模版，其他需要傳入郵件內容前，先生成內容。
 
-```
-public enum MailTemplateEnum
-{
-    Register = 0,
-    ForgetPassword = 1
-}
-注意配置設置 aspsetting.json 的 senderOfCompany 名稱必須和以下一致
- switch (senderOfCompany)
- {
-     case "126.com":
-         SendMail126();
-         break;
-     case "163.com":
-         SendMail163();
-         break;
-     case "qq.com":
-         SendMailQQ();
-         break;
-     case "gmail.com":
-         SendMailGoogle();
-         break;
-     default:
-         SendMail();
-         break;
- }
-```
+如果沒有原始模版提供使用，則需要郵件的原文內容傳入發郵件函數。
 
-如果主題信息為空，則從正文內容中提取前20個字符作為主題。
+如果主題信息為空，則從正文內容中提取前50個字符作為主題。
 
 
 
@@ -87,21 +62,21 @@ public enum MailTemplateEnum
  AppSetting.json 的 senderEmailAccountList 節點的配置, EMAIL發送賬戶列表。默認第1個發送失敗，則用第2個，如此類推。
 
 ```
-//AppSetting.json OR SenderEmailAccountList6000014.json
+//AppSetting.json OR SenderEmailAccountList_6000014.json
 "senderEmailAccountList": [
   {
-    "senderOfCompany": "xguard.hk",
+    "senderOfCompany": "xxxxxd.hk",
     "mailTool": 0, // 0: .Net.Mail, 1: MailKit
     "enableSSL": false, // SSL證書發送，senderServerHostPort=465
     "enableTSL": true,  // TSL 發送，senderServerHostPort=587
     "enablePasswordAuthentication": true,
     "senderServerHost": "smtp-relay.brevo.com",
     "senderServerHostPort": 587,
-    "fromMailAddress": "service@xguard.hk",
-    "fromMailDisplayName": "Service Center Of Xguard",
+    "fromMailAddress": "service@xxxxxd.hk",
+    "fromMailDisplayName": "Service Center Of MyCompany",
     "senderUserName": "955ced001@smtp-brevo.com",
     "senderUserPassword": "B1LEptMgQODdnr2Z",
-    "Remarks": "[mailTool:System.Net.Mail.SmtpClient=0; MailKit.Net.Smtp.SmtpClient=1] [StartTLS=587;SSL=465] This is the brevo.com email account used for sending emails from XGuard."
+    "Remarks": "[mailTool:System.Net.Mail.SmtpClient=0; MailKit.Net.Smtp.SmtpClient=1] [StartTLS=587;SSL=465] This is the brevo.com email account used for sending emails from MyCompany."
   }
 ```
 
@@ -150,7 +125,7 @@ props.put("mail.smtp.writetimeout", "60000");     // 写入超时60秒
 
 ![image-20250827192422129](./README_IMGs/README/image-20250827192422129.png)
 
-## 不同邮件服务商的加密要求
+## 不同郵件服務商的加密要求
 
 根据搜索结果，主流邮件服务商对SMTP加密的要求如下：
 
@@ -196,11 +171,11 @@ props.put("mail.smtp.writetimeout", "60000");     // 写入超时60秒
 
 如果確實需要為已搭建的**郵件伺服器設定證書**，可依下列步驟取得有效證書：
 
-- [ ] **免費證書（推薦個人 / 小型應用程式）**
+- [x] **免費證書（推薦個人 / 小型應用程式）**
 
    - 透過 Let's Encrypt 申請免費 SSL 憑證（有效期 90 天，可自動續約）
    - 申請工具：Certbot（自動化程度高，支援多種伺服器環境）
-- [ ] **付費證書（企業級應用程式）**
+- [x] **付費證書（企業級應用程式）**
 
    - 購買管道：阿里雲、騰訊雲端、華為雲端等雲端服務商的 SSL 憑證服務
 
@@ -208,7 +183,7 @@ props.put("mail.smtp.writetimeout", "60000");     // 写入超时60秒
 
    - 購買流程：在雲端服務商控制台搜尋 "SSL 憑證"，依指引提交網域名稱訊息，驗證通過後即可下載憑證
 
-- [ ] **推荐类型**：DV SSL（域名验证型）或 OV SSL（组织验证型）
+- [x] **推荐类型**：DV SSL（域名验证型）或 OV SSL（组织验证型）
 
   
 
@@ -290,12 +265,12 @@ SSL、TLS、SSL/TLS以及HTTPS之间的关系总结如下：
 
 为了正确配置 MailKit 的 SSL/TLS 模式，建议遵循以下步骤：
 
-| 邮件服务器类型           | 推荐使用的 SslSecureSocketOptions 枚举值 | 说明                                                |
+| 郵件伺服器類型 | 建議使用的 SslSecureSocketOptions 枚舉值 | 說明                                               |
 | :----------------------- | :--------------------------------------- | :-------------------------------------------------- |
-| Gmail                    | `Tls12OnConnect`                         | 使用端口 465，要求 TLS 1.2                          |
-| Office 365 / Outlook.com | `Tls12OnConnect`                         | 使用端口 587，支持 STARTTLS，但建议直接使用 TLS 1.2 |
-| QQ 邮箱                  | `Tls12OnConnect`                         | 通常使用端口 465 或 587，支持现代 TLS 协议          |
-| 企业内部 SMTP 服务器     | `StartTls` 或 `TlsOnConnect`             | 需查看服务器文档确认支持的协议版本                  |
+| Gmail                    | `Tls12OnConnect`                         | 使用連接埠 465，要求 TLS 1.2      |
+| Office 365 / Outlook.com | `Tls12OnConnect`                         | 使用連接埠 587，支援 STARTTLS，但建議直接使用 TLS 1.2 |
+| QQ 郵箱                  | `Tls12OnConnect`                         | 通常使用連接埠 465 或 587，支援現代 TLS 協議 |
+| 企業內部 SMTP 伺服器 | `StartTls` 或 `TlsOnConnect`             | 需查看伺服器文件確認支援的協定版本 |
 
 https://ithelp.ithome.com.tw/articles/10369379
 
@@ -329,3 +304,10 @@ powershell:
 $ ./MailEnhanceService "abc@gmail.com" "abc@yahoo.com"
 ```
 
+
+
+# EMAIL賬號配置
+
+打開程式： SenderEmailAccountSetting.exe
+
+![郵件賬號配置1](./README_IMGs/README/%E9%83%B5%E4%BB%B6%E8%B3%AC%E8%99%9F%E9%85%8D%E7%BD%AE1.jpg)

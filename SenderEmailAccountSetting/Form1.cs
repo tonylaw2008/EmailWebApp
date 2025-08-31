@@ -3,9 +3,13 @@ namespace SenderEmailAccountSetting
 
     public partial class Form1 : Form
     {
+        private List<SenderEmailAccount> SenderEmailAccountList { get; set; }
         public Form1()
         {
+            SenderEmailAccountList = new List<SenderEmailAccount>();
             InitializeComponent();
+
+
         }
 
         private void chkMailTool_CheckedChanged(object sender, EventArgs e)
@@ -25,7 +29,7 @@ namespace SenderEmailAccountSetting
                 // Disable the mail tool settings
                 chkEnableSSL.Checked = false;
                 chkEnableTSL.Checked = true;
-                chkEnablePasswordAuthentication.Checked = true; 
+                chkEnablePasswordAuthentication.Checked = true;
                 txtSenderServerHostPort.Text = "587";
             }
         }
@@ -66,9 +70,14 @@ namespace SenderEmailAccountSetting
                 SenderUserName = txtSenderUserName.Text.Trim(),
                 SenderUserPassword = txtSenderUserPassword.Text.Trim(),
                 Remarks = txtRemarks.Text.Trim()
-            };
-
+            }; 
             string json = Newtonsoft.Json.JsonConvert.SerializeObject(senderEmailAccount, Newtonsoft.Json.Formatting.Indented);
+
+            if (chkAddToList.Checked)
+            {
+                SenderEmailAccountList.Add(senderEmailAccount);
+                json = Newtonsoft.Json.JsonConvert.SerializeObject(SenderEmailAccountList, Newtonsoft.Json.Formatting.Indented);
+            } 
             richTextBox1.Text = json;
         }
 
@@ -124,6 +133,88 @@ namespace SenderEmailAccountSetting
                 chkEnablePasswordAuthentication.Checked = true;
                 txtSenderServerHostPort.Text = "587";
             }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog dlg = new SaveFileDialog())
+            {
+                dlg.DefaultExt = "json";
+                dlg.Filter = "Json Files|*.json|All files|*.*";
+                dlg.FileName = "SenderEmailAccountSetting_MaimComId.json";
+                // 显示保存文件对话框
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    // 使用 File.WriteAllText 方法直接保存，默认使用 UTF8 编码
+                    // 注意：.NET 中的 File.WriteAllText 默认就是 UTF8 编码（不带 BOM）
+                    File.WriteAllText(dlg.FileName, richTextBox1.Text.Trim());
+
+                    // 如果你需要带 BOM 的 UTF8 编码，可以使用以下方式：
+                    // File.WriteAllText(dlg.FileName, richTextBox1.Text, new UTF8Encoding(true));
+                }
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            // 1. 設定自動完成模式
+            txtSenderOfCompany.AutoCompleteMode = AutoCompleteMode.Suggest; // OR SuggestAppend
+            // 2. 設定自動完成來源
+            txtSenderOfCompany.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            // 3. 建立並新增提示集合
+            AutoCompleteStringCollection dataCollection = new AutoCompleteStringCollection();
+            dataCollection.AddRange(new string[] {
+                "mycompany.com",
+                "gmail.com",
+                "126.com",
+                "brevo.com",
+                "sohu.com",
+                "qq.com",
+                "yahoo.com.hk"
+            });
+            // 4. 關聯到TextBox
+            txtSenderOfCompany.AutoCompleteCustomSource = dataCollection;
+
+            // -----------------------------------------------------------------------
+            txtSenderServerHost.AutoCompleteMode = AutoCompleteMode.Suggest;  
+            txtSenderServerHost.AutoCompleteSource = AutoCompleteSource.CustomSource; 
+            AutoCompleteStringCollection dataCollection2 = new AutoCompleteStringCollection();
+            dataCollection2.AddRange(new string[] {
+                "smtp.mycompany.com",
+                "smtp.gmail.com",
+                "smtp.126.com",
+                "smtp.brevo.com",
+                "smtp.sohu.com",
+                "smtp.qq.com",
+                "smtp.yahoo.com.hk"
+            }); 
+            txtSenderServerHost.AutoCompleteCustomSource = dataCollection2;
+
+
+            // -----------------------------------------------------------------------
+            txtSenderServerHostPort.AutoCompleteMode = AutoCompleteMode.Suggest;
+            txtSenderServerHostPort.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            AutoCompleteStringCollection dataCollection3 = new AutoCompleteStringCollection();
+            dataCollection3.AddRange(new string[] {
+                "smtp.mycompany.com",
+                "smtp.gmail.com",
+                "smtp.126.com",
+                "smtp.brevo.com",
+                "smtp.sohu.com",
+                "smtp.qq.com",
+                "smtp.yahoo.com.hk"
+            });
+            txtSenderServerHostPort.AutoCompleteCustomSource = dataCollection3;
+
+
+            // txtRemarks -----------------------------------------------------------------------
+            txtRemarks.AutoCompleteMode = AutoCompleteMode.Suggest;
+            txtRemarks.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            AutoCompleteStringCollection dataCollection4 = new AutoCompleteStringCollection();
+            string text1 = "remark [mailTool:System.Net.Mail.SmtpClient=0; MailKit.Net.Smtp.SmtpClient=1] [StartTLS=587;SSL=465]";
+            dataCollection4.AddRange(new string[] { text1 });
+            txtRemarks.AutoCompleteCustomSource = dataCollection4;
+             
         }
     }
 }
